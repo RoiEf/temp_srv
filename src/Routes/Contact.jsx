@@ -1,12 +1,9 @@
 import React from "react";
-import { Container, Alert } from "react-bootstrap";
-import "./Contact.css";
+import { Alert } from "react-bootstrap";
 
 const Contact = () => {
   return (
-    <Container>
       <Alert variant={"primary"}>Contact</Alert>
-    </Container>
   );
 };
 

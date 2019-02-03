@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
@@ -18,7 +17,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Headder />
-          <Container  style={{ marginTop: '10px'}}>
+          <Container style={{ marginTop: '10px'}}>
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/ApiExp" component={ApiExp} />

@@ -1,12 +1,9 @@
 import React from "react";
-import { Container, Alert } from "react-bootstrap";
-import "./Home.css";
+import { Alert } from "react-bootstrap";
 
 const Home = () => {
   return (
-    <Container>
       <Alert variant={"primary"}>Home page</Alert>
-    </Container>
   );
 };
 

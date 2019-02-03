@@ -1,12 +1,9 @@
 import React from "react";
-import { Container, Alert } from "react-bootstrap";
-import "./TempView.css";
+import { Alert } from "react-bootstrap";
 
 const TempView = () => {
   return (
-    <Container>
       <Alert variant={"primary"}>Temp & Humidity</Alert>
-    </Container>
   );
 };
 
