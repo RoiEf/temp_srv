@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 // import axios from "axios";
 import Module from "./module";
-import { CardDeck, Container } from "react-bootstrap";
+import { CardDeck } from "react-bootstrap";
 
 class Modules extends Component {
   state = {
@@ -34,13 +34,11 @@ serverLocation() {
 
   render() {
     return (
-      <Container style={{ marginTop: '10px'}}>
       <CardDeck>
         {this.state.ids.id.map(tag => (
           <Module myKey={tag} key={tag} />
         ))}
       </CardDeck>
-      </Container>
     );
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Container } from "react-bootstrap";
 
 import Headder from "./Headder/Headder";
 import Modules from "./Modules/Modules";
@@ -17,6 +18,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Headder />
+          <Container  style={{ marginTop: '10px'}}>
           <Switch>
             <Route path="/" component={Home} exact />
             <Route path="/ApiExp" component={ApiExp} />
@@ -25,6 +27,7 @@ class App extends Component {
             <Route path="/aboutserver" component={Modules} />
             <Route component={Error} />
           </Switch>
+          </Container>
           <Footer />
         </div>
       </BrowserRouter>
