@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // import axios from "axios";
 import Module from "./module";
+import { CardDeck, Container } from "react-bootstrap";
 
 class Modules extends Component {
   state = {
@@ -9,11 +10,7 @@ class Modules extends Component {
     }
   };
 
-  styles = {
-    margin: "50px"
-  };
-
-  serverLocation() {
+serverLocation() {
  //   if (process.env.NODE_ENV === "production") {
       return "http://temp.efrati.info:44404/";
  //   } else {
@@ -37,11 +34,13 @@ class Modules extends Component {
 
   render() {
     return (
-      <div className="modules" style={this.styles}>
+      <Container style={{ marginTop: '10px'}}>
+      <CardDeck>
         {this.state.ids.id.map(tag => (
           <Module myKey={tag} key={tag} />
         ))}
-      </div>
+      </CardDeck>
+      </Container>
     );
   }
 }
