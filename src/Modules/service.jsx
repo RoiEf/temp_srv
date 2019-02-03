@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { ListGroup } from "react-bootstrap";
 
 class Service extends Component {
   state = {
@@ -36,15 +37,13 @@ class Service extends Component {
 
   render() {
     return (
-      <div className="serviceList" style={this.styles.serviceList}>
-        <ul>
+      <ListGroup variant="flush">
           {this.state.blo.map(Item => (
-            <li key={this.state.id + Item.id}>
+            <ListGroup.Item key={this.state.id + Item.id}>
               {Item.lable} : {Item.value}
-            </li>
+            </ListGroup.Item>
           ))}
-        </ul>
-      </div>
+      </ListGroup>
     );
   }
 }

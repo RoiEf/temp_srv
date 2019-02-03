@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Service from "./service";
+import { Card } from "react-bootstrap";
 
 class Module extends Component {
   state = {
@@ -68,18 +69,12 @@ class Module extends Component {
 
   render() {
     return (
-      <div className="module" style={this.styles.module}>
-        <div className="logo" style={this.styles.logo}>
-          <img
-            className="img1"
-            style={this.styles.img1}
-            src={this.state.sData.src}
-            alt={this.state.sData.alt}
-          />
-        </div>
-        <div>{this.state.sData.name}</div>
-
-        {this.state.sData.service ? (
+      <Card bg="light" border="secondary">
+      <Card.Body>
+        <Card.Img  variant="top" src={this.state.sData.src} alt={this.state.sData.alt} style={{ width: '150px', height: '150px' }} />
+        <Card.Title>{this.state.sData.name}</Card.Title>
+       </Card.Body>
+       {this.state.sData.service ? (
           <Service
             address={this.state.sData.service}
             key={this.state.sData.id}
@@ -87,9 +82,8 @@ class Module extends Component {
         ) : (
           <div />
         )}
-      </div>
+      </Card>
     );
   }
 }
-// <div>Server Data: {this.state.sData.service}</div>
 export default Module;
