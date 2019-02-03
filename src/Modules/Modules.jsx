@@ -14,11 +14,11 @@ class Modules extends Component {
   };
 
   serverLocation() {
-    if (process.env.NODE_ENV === "production") {
+ //   if (process.env.NODE_ENV === "production") {
       return "http://temp.efrati.info:44404/";
-    } else {
-      return "http://localhost:4000/";
-    }
+ //   } else {
+ //     return "http://localhost:4000/";
+ //   }
   }
 
   componentDidMount() {
