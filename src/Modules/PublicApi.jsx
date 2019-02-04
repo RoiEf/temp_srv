@@ -1,12 +1,34 @@
 import React, { Component } from "react";
 import { Jumbotron, InputGroup, FormControl, Button } from "react-bootstrap";
+import axios from "axios";
 
 export default class PublicApi extends Component {
   state = {
     serverAdress: "temp.efrati.info:44404/",
-    dsn: ""
+    dsn: "",
+    data: []
   }
 
+  serverLocation() {
+    //    if (process.env.NODE_ENV === "production") {
+          return "http://temp.efrati.info:44404/";
+    //    } else {
+    //      return "http://localhost:4000/";
+    //    }
+      }
+    
+  renderJsonHandler = () => {
+    axios
+      .get(this.serverLocation() + "public/" + this.state.dsn)
+      .then(res => {
+        this.setState({data: res.data});
+      })
+      .catch(error => console.error("something failed", error));
+  }
+
+  inputChangeHandler = (event) => {
+      this.setState({dsn: event.target.value});
+  }
 
   render () {
   return (
@@ -23,20 +45,19 @@ export default class PublicApi extends Component {
               placeholder="# << put a number here"
               aria-label="ApiNumber"
               aria-describedby="basic-addon1"
+              onChange={this.inputChangeHandler}
             />
           </InputGroup>
-          <Button variant="outline-primary">GET</Button>
+          <Button variant="outline-primary" onClick={this.renderJsonHandler}>GET</Button>
         </Jumbotron>
       </div>
       <div style={{ marginTop: '30px'}}>
         <Jumbotron>
-          <p>
-            json response here
-          </p>
+          
+            {this.state.data[0] ? (<pre>{JSON.stringify(this.state.data, null, 2)}</pre>) : (<br />)}
+          
         </Jumbotron>
       </div>
   </React.Fragment>
   );}
 }
-
-
