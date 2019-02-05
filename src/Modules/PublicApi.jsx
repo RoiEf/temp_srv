@@ -30,6 +30,10 @@ export default class PublicApi extends Component {
       this.setState({dsn: event.target.value});
   }
 
+/*  inputKeypressHandler = (event) => {
+    (event.keyCode === 13) ? (this.renderJsonHandler) : ("");
+  }
+*/
   render () {
   return (
     <React.Fragment>
@@ -47,6 +51,11 @@ export default class PublicApi extends Component {
               aria-label="ApiNumber"
               aria-describedby="basic-addon1"
               onChange={this.inputChangeHandler}
+              onKeyDown={event => { 
+                if (event.key === "Enter") {
+                  this.renderJsonHandler();
+                }
+              }}
             />
           </InputGroup>
           <Button variant="outline-primary" onClick={this.renderJsonHandler}>GET</Button>
