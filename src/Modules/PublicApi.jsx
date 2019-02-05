@@ -42,6 +42,7 @@ export default class PublicApi extends Component {
               <InputGroup.Text id="basic-addon1">{this.state.serverAdress}</InputGroup.Text>
             </InputGroup.Prepend>
             <FormControl
+              type="number"
               placeholder="# << put a number here"
               aria-label="ApiNumber"
               aria-describedby="basic-addon1"
