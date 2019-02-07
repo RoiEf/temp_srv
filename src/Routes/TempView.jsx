@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Jumbotron } from "react-bootstrap";
-import {Line} from 'react-chartjs-2';
-import axios from 'axios';
-import {parse, stringify} from 'flatted/esm';
+import { Line } from "react-chartjs-2";
+import axios from "axios";
 
 class TempView extends Component {
   constructor(props) {
@@ -13,43 +12,42 @@ class TempView extends Component {
 
   state = {
     dsn: "",
-    axiosData: [],
     chartData: {
       labels: [],
       datasets: [
         {
-          label: 'Temprature',
-          type:'line',
+          label: "Temprature",
+          type: "line",
           fill: false,
-          borderColor: 'blue',
-          backgroundColor: 'blue',
+          borderColor: "blue",
+          backgroundColor: "blue",
           data: [],
-          yAxisID: 'y-axis-1'
+          yAxisID: "y-axis-1"
         },
         {
-          label: 'Humidity',
-          type:'line',
+          label: "Humidity",
+          type: "line",
           fill: true,
-          backgroundColor: 'pink',
+          backgroundColor: "pink",
           data: [],
-          yAxisID: 'y-axis-2'
-        },
+          yAxisID: "y-axis-2"
+        }
       ]
     },
     chartOptions: {
       maintainAspectRatio: true,
       title: {
-        display: 'true',
-        text: 'Tempature and Humidity Dashboard',
+        display: "true",
+        text: "Tempature and Humidity Dashboard",
         fontSize: 25
       },
       scales: {
         yAxes: [
           {
-            type: 'linear',
+            type: "linear",
             display: true,
-            position: 'left',
-            id: 'y-axis-1',
+            position: "left",
+            id: "y-axis-1",
             gridLines: {
               display: false
             },
@@ -59,14 +57,14 @@ class TempView extends Component {
             ticks: {
               min: 0,
               max: 50,
-              stepSize: 5,
+              stepSize: 5
             }
           },
           {
-            type: 'linear',
+            type: "linear",
             display: true,
-            position: 'right',
-            id: 'y-axis-2',
+            position: "right",
+            id: "y-axis-2",
             gridLines: {
               display: false
             },
@@ -76,7 +74,7 @@ class TempView extends Component {
             ticks: {
               min: 0,
               max: 80,
-              stepSize: 10,
+              stepSize: 10
             }
           }
         ]
@@ -84,69 +82,68 @@ class TempView extends Component {
     }
   };
 
-  
   serverLocation() {
     //    if (process.env.NODE_ENV === "production") {
-          return "http://temp.efrati.info:44404/";
+    return "http://temp.efrati.info:44404/";
     //    } else {
     //      return "http://localhost:4000/";
     //    }
-      }
-    
+  }
+
   componentDidMount() {
     this.getChartData();
   }
 
-  updateChartData() {
-    let myState = parse(stringify(this.state.chartData));
+  updateChartData(data) {
     let arr1 = [];
     let arr2 = [];
     let arr3 = [];
-    
-    let index = this.state.axiosData.length;
-    index --;
+
+    let index = data.length;
+    index--;
     for (index; index >= 0; index--) {
-      arr1.push(this.state.axiosData[index].ts);
-      arr2.push(this.state.axiosData[index].temprature);
-      arr3.push(this.state.axiosData[index].humidity);
+      var iTime = new Date(data[index].ts).toLocaleString(undefined, {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      arr1.push( iTime);
+      arr2.push(data[index].temprature);
+      arr3.push(data[index].humidity);
     }
 
-    myState.labels = arr1;
-    myState.datasets[0].data = arr2;
-    myState.datasets[1].data = arr3;
+    var newChartData = {
+      ...this.state.chartData
+    };
 
-    this.setState({chartData: myState});
-}
+    newChartData.labels = arr1;
+    newChartData.datasets[0].data = arr2;
+    newChartData.datasets[1].data = arr3;
 
-  getChartData(){
+    this.setState({ chartData: newChartData });
+  }
+
+  getChartData() {
     axios
       .get(this.serverLocation() + "public/" + this.state.dsn)
-      .then(res => {
-        this.setState({axiosData: res.data});
-      })
-      .then(
-        this.updateChartData
-      )
+      .then(res => this.updateChartData(res.data))
       .catch(error => console.error("something failed", error));
   }
 
-  render () {
-
-    let myData = parse(stringify(this.state.chartData));
-
-  return (
-    <React.Fragment>
-      <Jumbotron>
-        <h1>Temp & Humidity Dashboard</h1>
-      </Jumbotron>
-      <Jumbotron>
-        <Line 
-          data={myData}
-          options={this.state.chartOptions}
-        />
-      </Jumbotron>
-    </React.Fragment>
-  );
-}}
+  render() {
+    return (
+      <React.Fragment>
+        <Jumbotron>
+          <h1>Temp & Humidity Dashboard</h1>
+        </Jumbotron>
+        <Jumbotron>
+          <Line data={this.state.chartData} options={this.state.chartOptions} />
+        </Jumbotron>
+      </React.Fragment>
+    );
+  }
+}
 
 export default TempView;
