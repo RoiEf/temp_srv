@@ -15,17 +15,17 @@ class TempView extends Component {
     dsn: "",
     axiosData: [],
     chartData: {
-      labels: [0,1,2,3,4,5,6,7,8,9,],
+      labels: [],
       datasets: [
         {
           label: 'Temprature',
           backgroundColor: 'rgba(75,192,192,0.4)',
-          data: [0,10,20,30,20,4,20,50,40,10]
+          data: []
         },
         {
           label: 'Humidity',
           backgroundColor: 'pink',
-          data: [5,20,40,40,50,60,50,60,50,20]
+          data: []
         },
       ]
     }
@@ -48,7 +48,9 @@ class TempView extends Component {
     let arr1 = [];
     let arr2 = [];
     let arr3 = [];
-    for (let index = 0; index < this.state.axiosData.length; index++) {
+    let index = this.state.axiosData.length;
+    index --;
+    for (index; index >= 0; index--) {
       arr1.push(this.state.axiosData[index].ts);
       arr2.push(this.state.axiosData[index].temprature);
       arr3.push(this.state.axiosData[index].humidity);
