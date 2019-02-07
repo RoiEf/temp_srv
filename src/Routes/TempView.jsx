@@ -11,7 +11,7 @@ class TempView extends Component {
   }
 
   state = {
-    dsn: "",
+    dsn: "70",
     chartData: {
       labels: [],
       datasets: [
@@ -42,6 +42,14 @@ class TempView extends Component {
         fontSize: 25
       },
       scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+              displayFormats: {
+                  quarter: 'MMM YYYY'
+              }
+          }
+        }],
         yAxes: [
           {
             type: "linear",
@@ -137,16 +145,16 @@ class TempView extends Component {
     let index = data.length;
     index--;
     for (index; index >= 0; index--) {
-      var iTime = new Date(data[index].ts).toLocaleString(undefined, {
+/*      var iTime = new Date(data[index].ts).toLocaleString(undefined, {
         day: 'numeric',
         month: 'numeric',
         year: 'numeric',
         hour: '2-digit',
-        minute: '2-digit',
-      });
-      arr1.push( iTime);
-      arr2.push(data[index].temprature);
-      arr3.push(data[index].humidity);
+        minute: '2-digit', 
+      }); */
+      arr1.push( data[index].ts); // iTime
+      arr2.push( data[index].temprature );
+      arr3.push( data[index].humidity );
     }
 
 
