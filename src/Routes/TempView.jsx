@@ -94,6 +94,41 @@ class TempView extends Component {
     this.getChartData();
   }
 
+  setScales(arr2Min,arr2Max,arr3Max){
+    if (arr3Max < 80) {
+      arr3Max = Math.round(arr3Max/10)*10;
+      arr3Max += 20;
+    } else {
+      arr3Max = 100;
+    }
+
+    if (arr2Min >= 0 && arr2Min < 30) {
+      arr2Min = 0;
+    } else {
+      arr2Min = Math.round(arr2Min/10)*10;
+      arr2Min -=20;
+    }
+
+    if (arr2Max >= 30) {
+      arr2Max = 50;
+    } else if (arr2Max < 30 && arr2Max >= -10) {
+      arr2Max = Math.round(arr2Max/10)*10;
+      arr2Max += 20;
+    } else if (arr2Max < -10) {
+      arr2Max = 0;
+    } 
+   
+    var tempChartOptions = {
+      ...this.state.chartOptions
+    };
+    
+    tempChartOptions.scales.yAxes[0].ticks.min = arr2Min;
+    tempChartOptions.scales.yAxes[0].ticks.max = arr2Max;
+    tempChartOptions.scales.yAxes[1].ticks.max = arr3Max;
+
+    this.setState({ chartOptions: tempChartOptions });
+  }
+
   updateChartData(data) {
     let arr1 = [];
     let arr2 = [];
@@ -114,6 +149,7 @@ class TempView extends Component {
       arr3.push(data[index].humidity);
     }
 
+
     var newChartData = {
       ...this.state.chartData
     };
@@ -122,8 +158,9 @@ class TempView extends Component {
     newChartData.datasets[0].data = arr2;
     newChartData.datasets[1].data = arr3;
 
+    this.setScales(Math.min(...arr2),Math.max(...arr2),Math.max(...arr3));
     this.setState({ chartData: newChartData });
-  }
+}
 
   getChartData() {
     axios
