@@ -19,18 +19,72 @@ class TempView extends Component {
       datasets: [
         {
           label: 'Temprature',
-          backgroundColor: 'rgba(75,192,192,0.4)',
-          data: []
+          type:'line',
+          fill: false,
+          borderColor: 'blue',
+          backgroundColor: 'blue',
+          data: [],
+          yAxisID: 'y-axis-1'
         },
         {
           label: 'Humidity',
+          type:'line',
+          fill: true,
           backgroundColor: 'pink',
-          data: []
+          data: [],
+          yAxisID: 'y-axis-2'
         },
       ]
+    },
+    chartOptions: {
+      maintainAspectRatio: true,
+      title: {
+        display: 'true',
+        text: 'Tempature and Humidity Dashboard',
+        fontSize: 25
+      },
+      scales: {
+        yAxes: [
+          {
+            type: 'linear',
+            display: true,
+            position: 'left',
+            id: 'y-axis-1',
+            gridLines: {
+              display: false
+            },
+            labels: {
+              show: true
+            },
+            ticks: {
+              min: 0,
+              max: 50,
+              stepSize: 5,
+            }
+          },
+          {
+            type: 'linear',
+            display: true,
+            position: 'right',
+            id: 'y-axis-2',
+            gridLines: {
+              display: false
+            },
+            labels: {
+              show: true
+            },
+            ticks: {
+              min: 0,
+              max: 80,
+              stepSize: 10,
+            }
+          }
+        ]
+      }
     }
-
   };
+
+  
   serverLocation() {
     //    if (process.env.NODE_ENV === "production") {
           return "http://temp.efrati.info:44404/";
@@ -48,6 +102,7 @@ class TempView extends Component {
     let arr1 = [];
     let arr2 = [];
     let arr3 = [];
+    
     let index = this.state.axiosData.length;
     index --;
     for (index; index >= 0; index--) {
@@ -60,8 +115,6 @@ class TempView extends Component {
     myState.datasets[0].data = arr2;
     myState.datasets[1].data = arr3;
 
-    console.log(myState);
-    
     this.setState({chartData: myState});
 }
 
@@ -89,9 +142,7 @@ class TempView extends Component {
       <Jumbotron>
         <Line 
           data={myData}
-          options={{
-            maintainAspectRatio: true
-          }}
+          options={this.state.chartOptions}
         />
       </Jumbotron>
     </React.Fragment>
