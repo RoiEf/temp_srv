@@ -11,7 +11,7 @@ class TempView extends Component {
   }
 
   state = {
-    dsn: "70",
+    dsn: "134",
     chartData: {
       labels: [],
       datasets: [
