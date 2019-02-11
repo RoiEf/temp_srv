@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import axios from "axios";
 import Module from "./module";
 import { CardDeck } from "react-bootstrap";
+import api from "../api";
 
 class Modules extends Component {
   state = {
@@ -9,20 +10,11 @@ class Modules extends Component {
       id: []
     }
   };
-
-serverLocation() {
- //   if (process.env.NODE_ENV === "production") {
-      return "http://temp.efrati.info:44404/";
- //   } else {
- //     return "http://localhost:4000/";
- //   }
-  }
-
   componentDidMount() {
     this.getIds();
   }
   getIds = () => {
-    fetch(this.serverLocation() + "about", {
+    fetch(api.about, {
       method: "post",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify({ request: "ids" })

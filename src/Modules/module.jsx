@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import api from "../api";
 import Service from "./service";
 import { Card } from "react-bootstrap";
 
@@ -33,27 +34,18 @@ class Module extends Component {
     }
   };
 
-  serverLocation() {
-//    if (process.env.NODE_ENV === "production") {
-      return "http://temp.efrati.info:44404/";
-//    } else {
-//      return "http://localhost:4000/";
-//    }
-  }
-
   componentDidMount() {
     this.getIdData();
   }
 
   getIdData = () => {
     axios
-      .post(this.serverLocation() + "about", {
+      .post(api.about, {
         request: "id",
         id: this.props.myKey
       })
       .then(res => {
         const data = res.data;
-        //  console.log(data);
         this.setState({
           sData: {
             id: data.id,

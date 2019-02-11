@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Jumbotron } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
+import api from "../api";
 
 class TempView extends Component {
   constructor(props) {
@@ -90,14 +91,6 @@ class TempView extends Component {
     }
   };
 
-  serverLocation() {
-    //    if (process.env.NODE_ENV === "production") {
-    return "http://temp.efrati.info:44404/";
-    //    } else {
-    //      return "http://localhost:4000/";
-    //    }
-  }
-
   componentDidMount() {
     this.getChartData();
   }
@@ -145,14 +138,8 @@ class TempView extends Component {
     let index = data.length;
     index--;
     for (index; index >= 0; index--) {
-/*      var iTime = new Date(data[index].ts).toLocaleString(undefined, {
-        day: 'numeric',
-        month: 'numeric',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit', 
-      }); */
-      arr1.push( data[index].ts); // iTime
+
+      arr1.push( data[index].ts);
       arr2.push( data[index].temprature );
       arr3.push( data[index].humidity );
     }
@@ -172,7 +159,7 @@ class TempView extends Component {
 
   getChartData() {
     axios
-      .get(this.serverLocation() + "public/" + this.state.dsn)
+      .get(api.public + this.state.dsn)
       .then(res => this.updateChartData(res.data))
       .catch(error => console.error("something failed", error));
   }

@@ -1,25 +1,17 @@
 import React, { Component } from "react";
 import { Jumbotron, InputGroup, FormControl, Button } from "react-bootstrap";
 import axios from "axios";
+import api from "../api";
 
 export default class PublicApi extends Component {
   state = {
-    serverAdress: "temp.efrati.info:44404/",
     dsn: "",
     data: []
   }
 
-  serverLocation() {
-    //    if (process.env.NODE_ENV === "production") {
-          return "http://temp.efrati.info:44404/";
-    //    } else {
-    //      return "http://localhost:4000/";
-    //    }
-      }
-    
   renderJsonHandler = () => {
     axios
-      .get(this.serverLocation() + "public/" + this.state.dsn)
+      .get(api.public + this.state.dsn)
       .then(res => {
         this.setState({data: res.data});
       })
