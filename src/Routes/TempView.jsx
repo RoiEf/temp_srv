@@ -12,12 +12,12 @@ class TempView extends Component {
   }
 
   state = {
-    dsn: "134",
+    dsn: "260",
     chartData: {
       labels: [],
       datasets: [
         {
-          label: "Temprature",
+          label: "Temp Indoors",
           type: "line",
           fill: false,
           borderColor: "blue",
@@ -26,13 +26,31 @@ class TempView extends Component {
           yAxisID: "y-axis-1"
         },
         {
-          label: "Humidity",
+          label: "Temp Outdoors",
+          type: "line",
+          fill: false,
+          borderColor: "aqua",
+          backgroundColor: "aqua",
+          data: [],
+          yAxisID: "y-axis-1"
+        },
+        {
+          label: "Humidity Indoors",
           type: "line",
           fill: true,
           backgroundColor: "pink",
           data: [],
           yAxisID: "y-axis-2"
+        },
+        {
+          label: "Humidity Outdoors",
+          type: "line",
+          fill: true,
+          backgroundColor: "red",
+          data: [],
+          yAxisID: "y-axis-2"
         }
+
       ]
     },
     chartOptions: {
@@ -134,14 +152,21 @@ class TempView extends Component {
     let arr1 = [];
     let arr2 = [];
     let arr3 = [];
+    let arr4 = [];
+    let arr5 = [];
 
     let index = data.length;
     index--;
     for (index; index >= 0; index--) {
 
-      arr1.push( data[index].ts);
-      arr2.push( data[index].temprature );
-      arr3.push( data[index].humidity );
+      if (data[index].iotId === 1) {
+        arr1.push( data[index].ts);
+        arr2.push( data[index].temprature );
+        arr3.push( data[index].humidity );
+      } else if (data[index].iotId === 2) {
+        arr4.push( data[index].temprature );
+        arr5.push( data[index].humidity );
+      }
     }
 
 
@@ -151,9 +176,11 @@ class TempView extends Component {
 
     newChartData.labels = arr1;
     newChartData.datasets[0].data = arr2;
-    newChartData.datasets[1].data = arr3;
+    newChartData.datasets[1].data = arr4;
+    newChartData.datasets[2].data = arr3;
+    newChartData.datasets[3].data = arr5;
 
-    this.setScales(Math.min(...arr2),Math.max(...arr2),Math.max(...arr3));
+    this.setScales(Math.min(...arr2,...arr4),Math.max(...arr2,...arr4),Math.max(...arr3,...arr5));
     this.setState({ chartData: newChartData });
 }
 
@@ -172,6 +199,9 @@ class TempView extends Component {
         </Jumbotron>
         <Jumbotron>
           <Line data={this.state.chartData} options={this.state.chartOptions} />
+        </Jumbotron>
+        <Jumbotron>
+          
         </Jumbotron>
       </React.Fragment>
     );
