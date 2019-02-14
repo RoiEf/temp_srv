@@ -23,7 +23,8 @@ class TempView extends Component {
           borderColor: "blue",
           backgroundColor: "blue",
           data: [],
-          yAxisID: "y-axis-1"
+          yAxisID: "y-axis-1",
+          cubicInterpolationMode: 'monotone'
         },
         {
           label: "Temp Outdoors",
@@ -32,7 +33,8 @@ class TempView extends Component {
           borderColor: "aqua",
           backgroundColor: "aqua",
           data: [],
-          yAxisID: "y-axis-1"
+          yAxisID: "y-axis-1",
+          cubicInterpolationMode: 'monotone'
         },
         {
           label: "Humidity Indoors",
@@ -40,7 +42,8 @@ class TempView extends Component {
           fill: true,
           backgroundColor: "pink",
           data: [],
-          yAxisID: "y-axis-2"
+          yAxisID: "y-axis-2",
+          cubicInterpolationMode: 'monotone'
         },
         {
           label: "Humidity Outdoors",
@@ -48,7 +51,8 @@ class TempView extends Component {
           fill: true,
           backgroundColor: "red",
           data: [],
-          yAxisID: "y-axis-2"
+          yAxisID: "y-axis-2",
+          cubicInterpolationMode: 'monotone'
         }
 
       ]
@@ -73,7 +77,7 @@ class TempView extends Component {
           {
             type: "linear",
             display: true,
-            position: "left",
+            position: "right",
             id: "y-axis-1",
             gridLines: {
               display: false
@@ -90,7 +94,7 @@ class TempView extends Component {
           {
             type: "linear",
             display: true,
-            position: "right",
+            position: "left",
             id: "y-axis-2",
             gridLines: {
               display: false
@@ -114,6 +118,11 @@ class TempView extends Component {
   }
 
   setScales(arr2Min,arr2Max,arr3Max){
+    console.log("setScales initiated");
+    console.log("arr2Min = " + arr2Min);
+    console.log("arr2Max = " + arr2Max);
+    console.log("arr3Max = " + arr3Max);
+
     if (arr3Max < 80) {
       arr3Max = Math.round(arr3Max/10)*10;
       arr3Max += 20;
@@ -154,25 +163,27 @@ class TempView extends Component {
     let arr3 = [];
     let arr4 = [];
     let arr5 = [];
+    let arrTempMinMax = [];
+    let arrHumidMax = [];
 
     let index = data.length;
     index--;
     for (index; index >= 0; index--) {
+      arr1.push( data[index].ts);
+      arrTempMinMax.push(data[index].temprature);
+      arrHumidMax.push(data[index].humidity);
 
       if (data[index].iotId === 1) {
-        arr1.push( data[index].ts);
-        arr2.push( data[index].temprature );
-        arr3.push( data[index].humidity );
+        arr2.push( { y: data[index].temprature, x: data[index].ts } );
+        arr3.push( { y: data[index].humidity, x: data[index].ts } );
       } else if (data[index].iotId === 2) {
-        arr4.push( data[index].temprature );
-        arr5.push( data[index].humidity );
+        arr4.push( { y: data[index].temprature, x: data[index].ts } );
+        arr5.push( { y: data[index].humidity, x: data[index].ts } );
       }
     }
 
 
-    var newChartData = {
-      ...this.state.chartData
-    };
+    var newChartData = { ...this.state.chartData };
 
     newChartData.labels = arr1;
     newChartData.datasets[0].data = arr2;
@@ -180,7 +191,7 @@ class TempView extends Component {
     newChartData.datasets[2].data = arr3;
     newChartData.datasets[3].data = arr5;
 
-    this.setScales(Math.min(...arr2,...arr4),Math.max(...arr2,...arr4),Math.max(...arr3,...arr5));
+    this.setScales(Math.min(...arrTempMinMax),Math.max(...arrTempMinMax),Math.max(...arrHumidMax));
     this.setState({ chartData: newChartData });
 }
 
