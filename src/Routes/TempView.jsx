@@ -3,6 +3,7 @@ import { Jumbotron } from "react-bootstrap";
 import { Line } from "react-chartjs-2";
 import axios from "axios";
 import api from "../api";
+import Dashboard from "../Modules/Dashboard";
 
 class TempView extends Component {
   constructor(props) {
@@ -201,7 +202,7 @@ class TempView extends Component {
           <Line data={this.state.chartData} options={this.state.chartOptions} />
         </Jumbotron>
         <Jumbotron>
-          
+          <Dashboard />
         </Jumbotron>
       </React.Fragment>
     );
